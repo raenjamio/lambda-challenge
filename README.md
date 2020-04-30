@@ -14,7 +14,7 @@ RDS
 
  ![rds1](./images/rdsDB.jpg)
 
- ![rds2](./images/Challeng.jpg)
+ ![rds2](./images/Challenge.jpg)
 
 Create a Zip:
 1- $ zip function.zip index.js
