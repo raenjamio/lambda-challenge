@@ -1,0 +1,6 @@
+{
+    "dbhost" : "lambdatest.cpjla3uesmdh.eu-central-1.rds.amazonaws.com",
+    "dbname" : "lambdatest",
+    "dbuser" :"admin",
+    "dbpassword" :"re.123456"
+}
