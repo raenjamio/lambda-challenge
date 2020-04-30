@@ -30,23 +30,6 @@ exports.handler = async (event, context) => {
         database: process.env.dbdatabase
     });
     
-    connection.connect(function(err) {
-      if (err) {
-        console.error('Database rds connection failed: ' + err.stack);
-        return;
-      }
-        connection.query('SELECT * from challenge', function (error, results, fields) {
-
-        // Handle error after the release.
-        if (error) throw error;
-        else console.log(results[0].name); 
-      });
-    
-      console.log('Connected rds to database.');
-      connection.end();
-    });
-    
-
 
     try {
         switch (event.httpMethod) {
@@ -54,6 +37,7 @@ exports.handler = async (event, context) => {
                 body = await dynamo.delete(JSON.parse(event.body)).promise();
                 break;
             case 'GET':
+                getDataFromRDS(connection, event)
                 body = await dynamo.scan({ TableName: event.queryStringParameters.TableName }).promise();
                 break;
             case 'POST':
@@ -78,3 +62,26 @@ exports.handler = async (event, context) => {
         headers,
     };
 };
+
+
+function  getDataFromRDS(connection, event) { 
+   if (event.queryStringParameters.TableNameRDS) {
+           
+    connection.connect(function(err) {
+      if (err) {
+        console.error('Database rds connection failed: ' + err.stack);
+        return;
+      }
+      
+        connection.query('SELECT * from ' + event.queryStringParameters.TableNameRDS, function (error, results, fields) {
+
+        // Handle error after the release.
+        if (error) throw error;
+        else console.log(results[0].name); 
+      });
+    
+      console.log('Connected rds to database.');
+      connection.end();
+    });
+   }
+} 
